@@ -4,6 +4,6 @@ const router = express.Router()
 
 
 // student registration
-router.post('/student-reg', registerStudent)
+router.post('/student-reg', registerStudent);
 
-export default router
+export default router;
