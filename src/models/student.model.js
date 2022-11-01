@@ -1,8 +1,9 @@
 import mongoose from "mongoose"
 import { v4 as uuidv4 } from "uuid"
+// import states from "../states.api.js";
 
 
-const statesArray = ['Abia', 'Adamawa', 'Akwa-Ibom']
+const statesArray = ['abia', 'adamawa', 'akwa-ibom']
 // id
 // firstname
 // middlename
@@ -18,6 +19,11 @@ const statesArray = ['Abia', 'Adamawa', 'Akwa-Ibom']
 // 10. Residential Address
 // 11. Mother Tongue
 // 12. Blood group and lots more later on...
+
+let validateEmail = (email) => {
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email);
+};
 
 const studentSchema = new mongoose.Schema(
     {
@@ -57,7 +63,17 @@ const studentSchema = new mongoose.Schema(
         },
         stateOfBirth: {
             type: String,
-            enum: statesArray
+            enum: statesArray,
+            lowercase: true,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true,
+            validate: [validateEmail, 'Please fill a valid email address'],
+            trim: true,
+            lowercase: true,
+            unique: true
         }
     }, { timestamps: true }
 )

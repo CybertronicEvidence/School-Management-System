@@ -8,5 +8,14 @@ Content-Type: application/json
     "admissionClass": "SS3",
     "academicYear": "2021/2022",
     "placeOfBirth": "Port-Hacourt",
-    "stateOfBirth": "Abia"
+    "stateOfBirth": "Abia",
+    "email": "glory@glory.com"
+}
+###
+
+POST http://localhost:8080/api/v1/user/student
+Content-Type: application/json
+
+{
+    "email": "glory@glory.com"
 }
