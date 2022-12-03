@@ -4,26 +4,21 @@ import { v4 as uuidv4 } from "uuid"
 
 
 const statesArray = ['abia', 'adamawa', 'akwa-ibom']
-// id
-// firstname
-// middlename
-// lastname
-// 2. Admission sought for Class
-// 3. Academic year
-// 4. Date of Birth
-// 5. Place of Birth
-// 6. State of Birth
-// 7. Nationality
-// 8. Religion
-// 9. Gender
-// 10. Residential Address
-// 11. Mother Tongue
-// 12. Blood group and lots more later on...
 
 let validateEmail = (email) => {
     var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email);
 };
+
+const userIdGenerator = () => {
+    let characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let randomID = '';
+    for (let i = 0; i < 7; i++) {
+        randomID += characters.charAt(Math.floor(Math.random() * characters.length))
+    }
+    return randomID;
+}
+const data = userIdGenerator()
 
 const studentSchema = new mongoose.Schema(
     {
@@ -74,6 +69,10 @@ const studentSchema = new mongoose.Schema(
             trim: true,
             lowercase: true,
             unique: true
+        },
+        studentID: {
+            type: String,
+            required: true
         }
     }, { timestamps: true }
 )

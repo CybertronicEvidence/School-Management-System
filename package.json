@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon src/app.js"
   },
   "repository": {
@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/CybertronicEvidence/School-Management-System#readme",
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jest": "^29.2.2",
     "mongoose": "^6.6.5",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",

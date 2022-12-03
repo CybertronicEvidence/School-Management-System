@@ -2,6 +2,7 @@ import Student from "../../models/student.model.js";
 import validator from "validator";
 import CryptoJS from "crypto-js";
 import nodemailer from 'nodemailer'
+import Teacher from "../../models/teacher.model.js";
 
 const userIdGenerator = () => {
     let characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -13,32 +14,27 @@ const userIdGenerator = () => {
 }
 const data = userIdGenerator()
 
-
-const registerStudent = async (req, res) => {
-
-    let { firstName, middleName, lastName, admissionClass, academicYear, dateOfBirth, placeOfBirth, stateOfBirth, email, studentID } = await req.body
+const registerTeacher = async (req, res) => {
+    let { firstName, middleName, lastName, sex, email, loginID, password } = await req.body
 
     try {
         if (validator.isEmail(email)) {
-            const exists = await Student.findOne({ email })
+            const exists = await Teacher.findOne({ email })
 
             if (exists) {
                 res.status(400).json('email already exists')
             } else {
-                const newStudent = new Student({
+                const newTeacher = new Teacher({
                     firstName,
                     middleName,
                     lastName,
-                    admissionClass,
-                    academicYear,
-                    dateOfBirth,
-                    placeOfBirth,
-                    stateOfBirth,
+                    sex,
                     email,
-                    studentID: CryptoJS.AES.encrypt(data, 'evidence').toString()
+                    loginID: CryptoJS.AES.encrypt(data, 'evidence').toString(),
+                    password
                 })
-                const savedStudent = await newStudent.save()
-                res.status(200).json(savedStudent)
+                const savedTeacher = await newTeacher.save()
+                res.status(200).json(savedTeacher)
                 // console.log(data);
 
                 const transporter = nodemailer.createTransport({
@@ -70,23 +66,4 @@ const registerStudent = async (req, res) => {
     }
 }
 
-const loginStudent = async (req, res) => {
-
-    try {
-        const student = await Student.findOne({ email: req.body.email })
-        !student && res.status(401).json('Wrong Credentials')
-
-        const hashedPassword = CryptoJS.AES.decrypt(student.studentID, 'evidence')
-        const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8)
-
-        OriginalPassword !== req.body.studentID && res.status(401).json('Wrong credentials!')
-
-        res.status(200).json(student)
-    } catch (err) {
-        res.status(500).json(err)
-    }
-}
-
-
-
-export { registerStudent, loginStudent };
+export default registerTeacher
